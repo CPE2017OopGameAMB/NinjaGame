@@ -62,9 +62,9 @@ public class AiBot extends Character{
 
     public void runBehavior(){
         switch (behavior){
-            case NORMAL:
-                walk_random();
-                break;
+//            case NORMAL:
+//                walk_random();
+//                break;
             case ANGRY:
                 walk_to_target();
                 break;
@@ -72,7 +72,6 @@ public class AiBot extends Character{
                 hit_target();
                 break;
         }
-        System.out.println(me.getX() +" "+ target.getX()+" "+me.getDir());
     }
 
     public void hit_target()
@@ -83,34 +82,34 @@ public class AiBot extends Character{
     public void walk_to_target()
     {
         if(me.getX() < target.getX()){
-            me.setX(me.getX()+5);
+            me.setX(me.getX()+0.5);
             me.setDir(DIR.R);
         }
 
         else{
-            me.setX(me.getX()-5);
+            me.setX(me.getX()-0.5);
             me.setDir(DIR.L);
         }
         returnState = STATE.WALK;
     }
 
-    public void walk_random(){
-        if(Math.random()*100 < 50){
-            me.setX(me.getX()+5);
-            me.setDir(DIR.R);
-            returnState = STATE.WALK;
-        }
-        else if(Math.random()*100 < 50)
-        {
-            me.setX(me.getX()-5);
-            me.setDir(DIR.L);
-            returnState = STATE.WALK;
-        }
-        else
-        {
-            returnState = STATE.IDLE;
-        }
-    }
+//    public void walk_random(){
+//        if(Math.random()*100 < 50){
+//            me.setX(me.getX()+5);
+//            me.setDir(DIR.R);
+//            returnState = STATE.WALK;
+//        }
+//        else if(Math.random()*100 < 50)
+//        {
+//            me.setX(me.getX()-5);
+//            me.setDir(DIR.L);
+//            returnState = STATE.WALK;
+//        }
+//        else
+//        {
+//            returnState = STATE.IDLE;
+//        }
+//    }
 
 
     public STATE update(Character target, boolean isTarget){
@@ -126,27 +125,27 @@ public class AiBot extends Character{
     {
         if(me != null && target !=null)
         {
-            if(me.getDir() == DIR.L && target.getX() - me.getX() <= range-50)
+            if(me.getDir() == DIR.L && me.getX() - target.getX() <= range-50 && me.getX() - target.getX() >= 0)
             {
-                System.out.println("A");
                 behavior = EAiBehavior.HIT;
             }
-            else if(me.getDir() == DIR.R && me.getX() - target.getX() <= range-50)
+            else if(me.getDir() == DIR.R && target.getX() - me.getX() <= range-50 && target.getX() - me.getX() >= 0)
             {
-                System.out.println("B");
                 behavior = EAiBehavior.HIT;
             }
-            else if(me.getDir() == DIR.L && me.getX() - target.getX() <= range)
-            {
-                System.out.println("C");
+//            else if(me.getDir() == DIR.L && me.getX() - target.getX() <= range && me.getX() - target.getX() >= 0)
+//            {
+//                System.out.println("C");
+//                behavior = EAiBehavior.ANGRY;
+//            }
+//            else if(me.getDir() == DIR.R && target.getX() - me.getX() <= range && target.getX() - me.getX() >= 0)
+//            {
+//                System.out.println("D");
+//                behavior = EAiBehavior.ANGRY;
+//            }
+//            else behavior = EAiBehavior.NORMAL;
+            else
                 behavior = EAiBehavior.ANGRY;
-            }
-            else if(me.getDir() == DIR.R && target.getX() - me.getX() <= range)
-            {
-                System.out.println("D");
-                behavior = EAiBehavior.ANGRY;
-            }
-            else behavior = EAiBehavior.NORMAL;
         }
     }
 
