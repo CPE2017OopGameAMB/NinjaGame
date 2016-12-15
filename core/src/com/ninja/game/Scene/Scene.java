@@ -6,10 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ninja.game.Interfaces.Element;
+import com.ninja.game.Sprite.SEnemy;
 import com.ninja.game.Sprite.Sprite;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Aunpyz on 12/15/2016.
@@ -19,6 +23,9 @@ public class Scene extends Sprite implements Element{
     private com.badlogic.gdx.graphics.g2d.Sprite water;
     private com.badlogic.gdx.graphics.g2d.Sprite fire[];
     private com.badlogic.gdx.graphics.g2d.Sprite wood[];
+    private boolean isEndStage =false;
+
+    ArrayList<com.badlogic.gdx.graphics.g2d.Sprite> enemyList = new ArrayList<com.badlogic.gdx.graphics.g2d.Sprite>();
 
     public Scene(Skin skin) {
         super(skin);
@@ -50,6 +57,7 @@ public class Scene extends Sprite implements Element{
 
     @Override
     public void init() {
+
         water = new com.badlogic.gdx.graphics.g2d.Sprite();
         wood = new com.badlogic.gdx.graphics.g2d.Sprite[2];
         fire = new com.badlogic.gdx.graphics.g2d.Sprite[2];
@@ -65,8 +73,9 @@ public class Scene extends Sprite implements Element{
 
     @Override
     public void update(float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M))
+        if(Gdx.input.isKeyJustPressed(Input.Keys.M) || isEndStage)
             setElement();
+            isEndStage = false;
     }
 
     @Override
@@ -97,5 +106,9 @@ public class Scene extends Sprite implements Element{
         if(position.x < 800)
             this.position.x = (position.x < 0? 0:-position.x);
         this.position.y = 0;
+    }
+
+    public void isEndStage(boolean t){
+
     }
 }

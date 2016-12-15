@@ -36,6 +36,8 @@ public class SEnemy extends Sprite implements Element, State{
         direction = random();
         self.setDir(direction);
         self.setPos(Math.random()*800, (double) PlayerAnimation.groundLV );
+        position.x = (float)self.getX();
+        position.y = (float)self.getY();
 //        position = new Vector2((float)Math.random()*800, PlayerAnimation.groundLV);
         ai = new AiBot(self);
     }
@@ -71,13 +73,15 @@ public class SEnemy extends Sprite implements Element, State{
         this.delta+=delta;
         setState();
         ai.update(target, true);
-        self.setPos(position.x, position.y);
+        self.setPos(ai.getChar().getX(), ai.getChar().getY());
+        position.x = (float)self.getX();
+        position.y = (float)self.getY();
     }
 
     @Override
     public void render(SpriteBatch batch)
     {
-        batch.draw(animation.getKeyFrame(delta),(float)self.getX(), (float)self.getY());
+        batch.draw(animation.getKeyFrame(delta), (float)self.getX(), (float)self.getY());
     }
 
     @Override
@@ -95,7 +99,6 @@ public class SEnemy extends Sprite implements Element, State{
         prevState = state;
         state = ai.update(self, false);
         setDir(ai.getChar().getDir());
-        System.out.print(" "+direction);
         if(prevState == STATE.DIE)
             return;
         switch (state)
