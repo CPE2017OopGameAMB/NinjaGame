@@ -5,6 +5,6 @@ package com.ninja.game.Calculate;
  */
 public class CoolDown {
     public CoolDown(){
-        s
+
     }
 }
