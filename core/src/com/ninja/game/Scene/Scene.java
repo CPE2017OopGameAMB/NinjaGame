@@ -80,6 +80,7 @@ public class Scene extends Sprite implements Element{
 
     @Override
     public void render(SpriteBatch batch) {
+        batch.begin();
         switch (element)
         {
             case WATER:
@@ -94,6 +95,7 @@ public class Scene extends Sprite implements Element{
                 batch.draw(fire[1], position.x+fire[1].getWidth(), position.y);
                 break;
         }
+        batch.end();
     }
 
     @Override

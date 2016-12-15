@@ -46,8 +46,6 @@ public class GameScreen extends ScreenAdapter {
     private final float WORLD_HEIGHT = 7.5f;
 
     private boolean isLoaded;
-
-    SEnemy monst;
     List<SEnemy> monsta = new ArrayList<SEnemy>();
 
     public GameScreen()
@@ -83,7 +81,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
         //wait until asset is loaded
         if (assetManager.update() && TimeUtils.millis() > splash_time && gamestate == GAMESTATE.PLAY) {
             if (!isLoaded)
@@ -91,28 +88,34 @@ public class GameScreen extends ScreenAdapter {
             scene.update(delta);
             scene.setPosition(player.getPosition());
             scene.render(batch);
-            monst.update(delta);
-            monst.render(batch);
 
             for (int i=0; i<monsta.size(); i++){
                 monsta.get(i).update(delta);
                 monsta.get(i).render(batch);
             }
+
             player.update(delta);
             player.render(batch);
         }
         else if(gamestate == GAMESTATE.MENU)
         {
+            batch.begin();
             batch.draw(mainmenu, 0, 0, 1024, 600);
+            batch.end();
         }
         else if(gamestate == GAMESTATE.PLAY)
         {
+            batch.begin();
             batch.draw(loading, 0, 0, 1024, 600);
+            batch.end();
         }
         else
+        {
+            batch.begin();
             batch.draw(gameover, 0, 0, 1024, 600);
+            batch.end();
+        }
         update(delta);
-        batch.end();
     }
 
     private void init()
@@ -124,11 +127,7 @@ public class GameScreen extends ScreenAdapter {
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
 
-        monst = new WoodE(resource);
-        monst.setTarget(player.getMe());
-
         int maxGen = 5;
-
 
         for (int i=0; i<=maxGen; i++){
             int ff = 1 + (int)(Math.random() * ((3 - 1) + 1));
@@ -146,7 +145,6 @@ public class GameScreen extends ScreenAdapter {
         resource.dispose();
         scene.dispose();
         player.dispose();
-        monst.dispose();
         mainmenu.dispose();
         loading.dispose();
     }
