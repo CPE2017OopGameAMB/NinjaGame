@@ -2,51 +2,54 @@ package com.ninja.game.Sprite;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.ninja.game.Sprite.Character;
+import com.ninja.game.Sprite.SEnemy;
 
 /**
  * Created by Aunpyz on 12/15/2016.
  */
-public class FireE extends SEnemy {
-    public FireE(Skin skin) {
+public class WaterE extends SEnemy {
+    public WaterE(Skin skin) {
         super(skin);
     }
 
     @Override
     public void init()
     {
-        idle = new TextureRegion[2][31];
-        die = new TextureRegion[2][41];
-        attack = new TextureRegion[2][31];
-        walk = new TextureRegion[2][31];
+        idle = new TextureRegion[2][30];
+        die = new TextureRegion[2][30];
+        attack = new TextureRegion[2][30];
+        walk = new TextureRegion[2][30];
 
         for(int i=0; i<2; i++)
         {
-            for(int j=0; j<31; j++)
+            for(int j=0; j<30; j++)
             {
-                idle[i][j] = resource.getRegion((i==0?"ffi":"fbi")+String.format("%02d", j+1));
+                idle[i][j] = resource.getRegion((i==0?"wfi":"wbi")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
-            for(int j=0; j<41; j++)
+            for(int j=0; j<30; j++)
             {
-                die[i][j] = resource.getRegion((i==0?"ffd":"fbd")+String.format("%02d", j+1));
+                die[i][j] = resource.getRegion((i==0?"wfd":"wbd")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
-            for(int j=0; j<31; j++)
+            for(int j=0; j<30; j++)
             {
-                attack[i][j] = resource.getRegion((i==0?"ffa":"fba")+String.format("%02d", j+1));
+                attack[i][j] = resource.getRegion((i==0?"wfa":"wba")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
-            for(int j=0; j<31; j++)
+            for(int j=0; j<30; j++)
             {
-                walk[i][j] = resource.getRegion((i==0?"ffw":"fbw")+String.format("%02d", j+1));
+                walk[i][j] = resource.getRegion((i==0?"wfw":"wbw")+String.format("%02d", j+1));
             }
         }
         animation = new Animation(fps, idle[0]);
@@ -69,20 +72,13 @@ public class FireE extends SEnemy {
     {
         for(int i = 0; i<2; i++)
         {
-            for(int j= 0; i<31; j++)
+            for(int j= 0; i<30; j++)
             {
                 idle[i][j].getTexture().dispose();
+                die[i][j].getTexture().dispose();
                 attack[i][j].getTexture().dispose();
                 walk[i][j].getTexture().dispose();
             }
         }
-        for(int i = 0; i<2; i++)
-        {
-            for(int j= 0; i<41; j++)
-            {
-                die[i][j].getTexture().dispose();
-            }
-        }
     }
-
 }
