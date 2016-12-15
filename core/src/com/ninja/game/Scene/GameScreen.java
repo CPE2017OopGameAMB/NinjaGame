@@ -124,12 +124,12 @@ public class GameScreen extends ScreenAdapter {
         monst = new WoodE(resource);
         monst.setTarget(player.getMe());
 
-        int minGen = 0;
         int maxGen = 5;
 
-        int ff = minGen + (int)(Math.random() * ((maxGen - minGen) + 1));
 
         for (int i=0; i<=maxGen; i++){
+            int ff = 1 + (int)(Math.random() * ((3 - 1) + 1));
+            System.out.println(ff);
             monsta.add(classReturn(ff));
             monsta.get(i).setTarget(player.getMe());
         }
@@ -156,9 +156,9 @@ public class GameScreen extends ScreenAdapter {
 
     private SEnemy classReturn(int num){
         switch (num){
-            case 0: return new FireE(resource);
-            case 1: return new WaterE(resource);
-            case 2: return new WoodE(resource);
+            case 1: return new FireE(resource);
+            case 2: return new WaterE(resource);
+            case 3: return new WoodE(resource);
             default:return new FireE(resource);
         }
     }
