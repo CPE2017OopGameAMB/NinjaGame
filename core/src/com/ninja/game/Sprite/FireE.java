@@ -1,7 +1,6 @@
 package com.ninja.game.Sprite;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -49,21 +48,10 @@ public class FireE extends SEnemy {
                 walk[i][j] = resource.getRegion((i==0?"ffw":"fbw")+String.format("%02d", j+1));
             }
         }
-        animation = new Animation(fps, idle[0]);
+        animation = new Animation(PlayerAnimation.fps, idle[0]);
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
-
-    @Override
-    public void render(SpriteBatch batch)
-    {
-        batch.draw(animation.getKeyFrame(delta),position.x,position.y);
-    }
-
-    @Override
-    public void update(float delta) {
-        this.delta += delta;
-    }
-
+    
     @Override
     public void dispose()
     {

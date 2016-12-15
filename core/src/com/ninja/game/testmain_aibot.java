@@ -15,7 +15,7 @@ public class testmain_aibot {
         Character target = new Enemy();
         target.setPos(3,4);
         aiBot = new AiBot(player);
-        aiBot.setTarget(target);
+        aiBot.setTarget(target, true);
 
         System.out.println(aiBot.chk_angle());
     }

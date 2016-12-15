@@ -5,7 +5,7 @@ package com.ninja.game.Calculate;
  */
 public enum EAiBehavior {
     NORMAL,
-    SCARE,
+    HIT,
     ANGRY,
     STUN,
     STUPID

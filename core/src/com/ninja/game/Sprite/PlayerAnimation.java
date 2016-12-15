@@ -32,22 +32,21 @@ public class PlayerAnimation extends Sprite implements State {
 
     private float elapsed;
     private float delta;
-    private final float fps = 1f / 30f;
     private final float distance = 3f;
     private final float gravity = -0.5f;
     private final float scale = 0.5f;
     public static final float groundLV = 40;
+    public static final float fps = 1f / 30f;
 
-    private double hp;
+    private double hp = 100;
     private String name;
     private boolean isATK;
     private boolean isGround;
 
-    Character me = new Character();
+    private Character me = new Character();
 
     public PlayerAnimation(Skin skin) {
         super(skin);
-        hp = 100;
         me.create_character(hp, hp, 3, 2);
         me.setName("Ninja");
         me.setPos(1, 0);
@@ -150,37 +149,6 @@ public class PlayerAnimation extends Sprite implements State {
     @Override
     public void update(float delta) {
         this.delta += delta;
-//        if(hp <= 0 || Gdx.input.isKeyPressed(Input.Keys.ENTER) || playerState == STATE.DIE)
-//        {
-//            if(playerState == STATE.DIE)
-//                return;
-//            setState(STATE.DIE);
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-//        {
-//            setDir(DIR.L);
-//            setState(STATE.WALK);
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-//        {
-//            setDir(DIR.R);
-//            setState(STATE.WALK);
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && playerState != STATE.JUMP)
-//        {
-//            setState(STATE.JUMP);
-//        }
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.Z) && playerState != STATE.ATTACK)
-//        {
-//            setState(STATE.ATTACK);
-//        }
-//        else
-//        {
-//            if(this.delta >= animation.getAnimationDuration())
-//            {
-//                setState(STATE.IDLE);
-//            }
-//        }
         if (me.getHealth() > 0) {
             me.x += me.velocityX;
             if (me.velocityX < -100)
@@ -368,5 +336,14 @@ public class PlayerAnimation extends Sprite implements State {
 
     public Character getMe() {
         return this.me;
+    }
+
+    public void setDirection(DIR dir){
+        this.direction = dir;
+    }
+
+    public void setState(STATE newState){
+        this.previousState = this.playerState;
+        this.playerState = newState;
     }
 }

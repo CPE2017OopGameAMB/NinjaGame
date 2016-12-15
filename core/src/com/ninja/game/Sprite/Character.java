@@ -1,5 +1,6 @@
 package com.ninja.game.Sprite;
 
+import com.ninja.game.Interfaces.State;
 import com.ninja.game.Item.Wearable;
 import com.ninja.game.State.EElements;
 import com.ninja.game.State.EState;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by ather on 19/11/2559.
  */
-public class Character implements ICharater {
+public class Character implements ICharater, State {
 
     //interface prop
     String name;
@@ -20,6 +21,7 @@ public class Character implements ICharater {
     protected EType type = EType.HERO;
     protected EElements element = EElements.NORMAL;
     protected boolean enermy = false;
+    protected DIR dir;
 
     //Life of charector
     protected double health = 1;
@@ -293,5 +295,25 @@ public class Character implements ICharater {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public STATE getState() {
+        return null;
+    }
+
+    @Override
+    public void setState() {
+
+    }
+
+    public void setDir(State.DIR dir)
+    {
+        this.dir = dir;
+    }
+
+    @Override
+    public DIR getDir() {
+        return dir;
     }
 }

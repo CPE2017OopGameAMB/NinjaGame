@@ -10,21 +10,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ninja.game.Interfaces.State;
-import com.ninja.game.Scene.StageController;
-import com.ninja.game.Sprite.FireE;
 import com.ninja.game.Sprite.PlayerAnimation;
 import com.ninja.game.Sprite.SEnemy;
 import com.ninja.game.Sprite.WoodE;
-import com.uwsoft.editor.renderer.SceneLoader;
-
-import java.util.ArrayList;
 
 /**
  * Created by Aunpyz on 12/14/2016.
@@ -116,6 +108,7 @@ public class GameScreen extends ScreenAdapter {
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
         monst = new WoodE(resource);
+        monst.setTarget(player.getMe());
     }
 
     @Override
