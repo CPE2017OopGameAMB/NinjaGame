@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ninja.game.Interfaces.State;
 import com.ninja.game.Sprite.*;
 
 import java.util.ArrayList;
@@ -36,7 +37,10 @@ public class GameScreen extends ScreenAdapter {
     private long splash_time;
     private Texture mainmenu;
     private Texture loading;
+    private Texture gameover;
     private GAMESTATE gamestate;
+    private boolean isOver;
+    private float countDown;
 
     private final float WORLD_WIDTH = 12.8f;
     private final float WORLD_HEIGHT = 7.5f;
@@ -54,6 +58,8 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show () {
+        isOver = false;
+        countDown = 0f;
         batch = new SpriteBatch();
         stageController = new StageController();
         assetManager = new AssetManager();
@@ -61,6 +67,7 @@ public class GameScreen extends ScreenAdapter {
         assetManager.load("packed/scene.atlas",TextureAtlas.class);
         mainmenu = new Texture(Gdx.files.internal("scene/main.png"));
         loading = new Texture(Gdx.files.internal("scene/loading.png"));
+        gameover = new Texture(Gdx.files.internal("scene/gameover.png"));
 
         //camera and viewport initialize
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -109,6 +116,8 @@ public class GameScreen extends ScreenAdapter {
         {
             batch.draw(loading, 0, 0, 1024, 600);
         }
+        else
+            batch.draw(gameover, 0, 0, 1024, 600);
         batch.end();
     }
 
@@ -150,8 +159,20 @@ public class GameScreen extends ScreenAdapter {
 
     public void update(float delta)
     {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            gamestate = GAMESTATE.PLAY;
+        if(!isOver)
+        {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+                gamestate = GAMESTATE.PLAY;
+            if(player != null && player.getState() == State.STATE.DIE)
+            {
+                countDown += delta;
+                if(countDown >= 2)
+                {
+                    gamestate = GAMESTATE.OVER;
+                    isOver = true;
+                }
+            }
+        }
     }
 
     private SEnemy classReturn(int num){
