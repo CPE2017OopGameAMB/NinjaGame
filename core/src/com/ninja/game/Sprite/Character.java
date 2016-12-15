@@ -1,5 +1,6 @@
 package com.ninja.game.Sprite;
 
+import com.ninja.game.Calculate.CollisionLayer;
 import com.ninja.game.Interfaces.State;
 import com.ninja.game.Item.Wearable;
 import com.ninja.game.State.EElements;
@@ -152,9 +153,15 @@ public class Character implements ICharater, State {
         this.Health2Percent();
     }
 
-    private void aaasss(ArrayList<SEnemy> enemyL){
+    private void scaningEnemy(ArrayList<SEnemy> enemyL){
+        CollisionLayer col = new CollisionLayer();
+        col.setPlayer(this.getX(), this.getY());
         for (SEnemy s : enemyL){
-
+            col.setOther(s.self.getX(), s.self.getY());
+            if (col.circleNearest(20)){
+                //when enemry nearest player make damage to enermy
+                this.attack(s.self, atk);
+            }
         }
     }
 

@@ -1,9 +1,7 @@
 package com.ninja.game.Calculate;
 
-import com.badlogic.gdx.math.Vector2;
 import com.ninja.game.Sprite.Character;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +29,41 @@ public class CollisionLayer {
         this.characterList = others;
     }
 
+    public CollisionLayer(double ax, double ay, double bx, double by) {
+        setPlayer(ax, ay);
+        setOther(bx, by);
+    }
+
+    public void setPlayer(double ax, double ay){
+        this.player = new Character();
+        this.player.setPos(ax, ay);
+    }
+
+    public void setOther(double bx, double by){
+        this.other = new Character();
+        this.other.setPos(bx, by);
+    }
+
+    public double point2angle(){
+        return Math.toDegrees(Math.atan2(other.getY()-player.getY(), other.getX()- player.getX()));
+    }
+
     public boolean findNearest(double nearest){
-        Vector2 v1, v2;
         Distance distance;
-        v1 = new Vector2(BigDecimal.valueOf(player.getX()).floatValue(), BigDecimal.valueOf(player.getY()).floatValue());
-        v2 = new Vector2(BigDecimal.valueOf(other.getX()).floatValue(), BigDecimal.valueOf(other.getY()).floatValue());
-        distance = new Distance(v1, v2);
+        distance = new Distance(player.getX(), player.getY(), other.getX(), other.getY());
         double xs = distance.distanct();
         return (xs < nearest);
+    }
+
+    public boolean circleNearest(double radian){
+        Distance distance;
+        distance = new Distance(player.getX(), player.getY(), other.getX(), other.getY());
+        double pp = point2angle();
+        if (pp < -120 && pp > 120){
+            if(distance.distanct() >= radian){
+                return true;
+            }
+        }
+        return false;
     }
 }

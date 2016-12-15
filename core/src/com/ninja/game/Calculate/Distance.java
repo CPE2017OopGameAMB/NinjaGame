@@ -11,14 +11,37 @@ import java.math.BigDecimal;
 public class Distance {
     Vector2 va;
     Vector2 vb;
+
+
     public Distance(Vector2 va, Vector2 vb){
         this.va = va;
         this.vb = vb;
     }
 
-    Distance(float vax, float vay, float vbx, float vby){
-        this.va = new Vector2(vax, vay);
-        this.vb = new Vector2(vbx, vby);
+    public Distance(double vax, double vay){
+        setVa(vax,vay);
+        setVb(0,0);
+    }
+
+    public Distance(double vax, double vay, double vbx, double vby){
+        float ax = BigDecimal.valueOf(vax).floatValue();
+        float ay = BigDecimal.valueOf(vay).floatValue();
+        float bx = BigDecimal.valueOf(vbx).floatValue();
+        float by = BigDecimal.valueOf(vby).floatValue();
+        this.va = new Vector2(ax, ay);
+        this.vb = new Vector2(bx, by);
+    }
+
+    public void setVa(double vax, double vay){
+        float ax = BigDecimal.valueOf(vax).floatValue();
+        float ay = BigDecimal.valueOf(vay).floatValue();
+        this.va = new Vector2(ax, ay);
+    }
+
+    public void setVb(double vbx, double vby){
+        float bx = BigDecimal.valueOf(vbx).floatValue();
+        float by = BigDecimal.valueOf(vby).floatValue();
+        this.vb = new Vector2(bx,by);
     }
 
     public Vector2 delta(){
