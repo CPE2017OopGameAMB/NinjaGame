@@ -44,7 +44,30 @@ public class Character implements ICharater {
     protected double x = 0;
     protected double y = 0;
 
+    //Velocity
+    protected double velocityX = 0;
+    protected double velocityY = 0;
 
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
+
+    public void velocity(double x, double y){
+        setVelocityX(x);
+        setVelocityY(y);
+    }
+
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public void setVelocityX(double velocityX) {
+        this.velocityX = velocityX;
+    }
     /*------------- Coder ----------------*/
 
     public Character() {
