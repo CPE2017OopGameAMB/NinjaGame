@@ -21,6 +21,10 @@ public class AiBot extends Character{
     State.STATE normal[] = {State.STATE.IDLE, State.STATE.WALK};
     STATE returnState;
 
+    Timer time = new Timer(5);
+
+    boolean isFirst = true;
+
     public AiBot(Character me){
         this.me = me;
     }
@@ -141,11 +145,27 @@ public class AiBot extends Character{
         {
             if(me.getDir() == DIR.L && me.getX() - target.getX() <= range-50 && me.getX() - target.getX() >= 0)
             {
-                behavior = EAiBehavior.HIT;
+                if(isFirst || time.hasCompleted()){
+                    behavior = EAiBehavior.HIT;
+                    isFirst = false;
+                    time.start();
+                    System.out.println(isFirst);
+                    System.out.println(time.hasCompleted());
+                }else {
+                    behavior = EAiBehavior.ANGRY;
+                }
             }
             else if(me.getDir() == DIR.R && target.getX() - me.getX() <= range-50 && target.getX() - me.getX() >= 0)
             {
-                behavior = EAiBehavior.HIT;
+                if(isFirst || time.hasCompleted()){
+                    behavior = EAiBehavior.HIT;
+                    isFirst = false;
+                    time.start();
+                    System.out.println(time.hasCompleted());
+                }else {
+                    behavior = EAiBehavior.ANGRY;
+                }
+
             }
 //            else if(me.getDir() == DIR.L && me.getX() - target.getX() <= range && me.getX() - target.getX() >= 0)
 //            {

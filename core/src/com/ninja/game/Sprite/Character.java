@@ -37,6 +37,11 @@ public class Character implements ICharater, State {
     protected double sumItemAtk;
     protected double sumItemDef=0;
 
+
+    //Arrary of Enemy
+    protected List<SEnemy> enemyList = new ArrayList<SEnemy>();
+
+
     //Status
     protected double atk = 0;
     protected double def = 0;
@@ -145,6 +150,12 @@ public class Character implements ICharater, State {
     private void healthUpdate(){
         this.percenHP2RawHP();
         this.Health2Percent();
+    }
+
+    private void aaasss(ArrayList<SEnemy> enemyL){
+        for (SEnemy s : enemyL){
+
+        }
     }
 
 

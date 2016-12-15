@@ -13,7 +13,7 @@ public class Timer
 
     public Timer(long secsToWait)
     {
-        this.secsToWait = secsToWait;
+        this.secsToWait = start+secsToWait;
     }
 
     public void start()
@@ -21,8 +21,14 @@ public class Timer
         start = TimeUtils.millis() / 1000;
     }
 
+
     public boolean hasCompleted()
     {
         return TimeUtils.millis() / 1000 - start >= secsToWait;
+    }
+
+    public boolean Cooldown(){
+        start();
+        return hasCompleted();
     }
 }
