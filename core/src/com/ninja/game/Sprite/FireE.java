@@ -51,7 +51,7 @@ public class FireE extends SEnemy {
         animation = new Animation(PlayerAnimation.fps, idle[0]);
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
-    
+
     @Override
     public void dispose()
     {
