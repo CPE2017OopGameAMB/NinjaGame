@@ -116,7 +116,7 @@ public class Character implements ICharater, State {
         // Calculate Every Called
         this.itemCalculateAtk();
         this.itemCalculateDef();
-        System.out.println("Item.Def: "+this.sumItemDef+ " +Char.Def "+this.def+ " = "+(double)(this.sumItemDef+this.def));
+        //System.out.println("Item.Def: "+this.sumItemDef+ " +Char.Def "+this.def+ " = "+(double)(this.sumItemDef+this.def));
         return this.sumItemDef+this.def;
     }
 
@@ -159,7 +159,7 @@ public class Character implements ICharater, State {
 
     public void attacked(double dmg, double multi) {
         healthUpdate();
-        System.out.println(getPercenHP() + " perc2dmg: "+def2PercentDamage(dmg, multi));
+        //System.out.println(getPercenHP() + " perc2dmg: "+def2PercentDamage(dmg, multi));
         setPercenHP((getPercenHP() - def2PercentDamage(dmg, multi)));
         healthUpdate();
     }
