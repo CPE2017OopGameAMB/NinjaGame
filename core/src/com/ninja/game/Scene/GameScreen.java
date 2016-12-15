@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ninja.game.Interfaces.State;
 import com.ninja.game.Scene.StageController;
 import com.ninja.game.Sprite.FireE;
 import com.ninja.game.Sprite.PlayerAnimation;
@@ -25,6 +27,7 @@ import com.uwsoft.editor.renderer.SceneLoader;
  * Created by Aunpyz on 12/14/2016.
  */
 public class GameScreen extends ScreenAdapter {
+    enum GAMESTATE{MENU, PLAY, OVER};
     //background
     private Camera camera;
     private Viewport viewport;
@@ -35,6 +38,9 @@ public class GameScreen extends ScreenAdapter {
     private PlayerAnimation player;
     private Scene scene;
     private long splash_time;
+    private Texture mainmenu;
+    private Texture loading;
+    private GAMESTATE gamestate;
 
     private final float WORLD_WIDTH = 12.8f;
     private final float WORLD_HEIGHT = 7.5f;
@@ -46,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen()
     {
         this.isLoaded = false;
+        gamestate = GAMESTATE.MENU;
     }
 
     @Override
@@ -55,6 +62,8 @@ public class GameScreen extends ScreenAdapter {
         assetManager = new AssetManager();
         assetManager.load("packed/animation.atlas", TextureAtlas.class);
         assetManager.load("packed/scene.atlas",TextureAtlas.class);
+        mainmenu = new Texture(Gdx.files.internal("scene/main.png"));
+        loading = new Texture(Gdx.files.internal("scene/loading.png"));
 
         //camera and viewport initialize
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -71,8 +80,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        update(delta);
         //wait until asset is loaded
-        if (assetManager.update() && TimeUtils.millis() > splash_time) {
+        if (assetManager.update() && TimeUtils.millis() > splash_time && gamestate == GAMESTATE.PLAY) {
             if (!isLoaded)
                 init();
             scene.update(delta);
@@ -83,9 +93,13 @@ public class GameScreen extends ScreenAdapter {
             player.update(delta);
             player.render(batch);
         }
-        else
+        else if(gamestate == GAMESTATE.MENU)
         {
-
+            batch.draw(mainmenu, 0, 0, 1024, 600);
+        }
+        else if(gamestate == GAMESTATE.PLAY)
+        {
+            batch.draw(loading, 0, 0, 1024, 600);
         }
         batch.end();
     }
@@ -99,5 +113,23 @@ public class GameScreen extends ScreenAdapter {
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
         monst = new WoodE(resource);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        batch.dispose();
+        resource.dispose();
+        scene.dispose();
+        player.dispose();
+        monst.dispose();
+        mainmenu.dispose();
+        loading.dispose();
+    }
+
+    public void update(float delta)
+    {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            gamestate = GAMESTATE.PLAY;
     }
 }
