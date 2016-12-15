@@ -76,9 +76,20 @@ public class AiBot extends Character{
 
     public void hit_target()
     {
-        me.attack(target, 10);
-        new Timer(50000);
-        returnState = STATE.ATTACK;
+        if(target.getHealth() <= 0)
+        {
+            return;
+        }
+        else if(target.getY() > 100)
+        {
+            returnState = STATE.WALK;
+        }
+        else
+        {
+            System.out.println(target.getHealth());
+            target.setHealth(target.getHealth()-.1);
+            returnState = STATE.ATTACK;
+        }
 
     }
 

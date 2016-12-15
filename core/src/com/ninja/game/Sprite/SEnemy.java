@@ -22,6 +22,7 @@ public class SEnemy extends Sprite implements Element, State{
     protected AiBot ai;
     protected STATE state;
     protected STATE prevState;
+    protected StatusBar statusBar;
     protected TextureRegion idle[][];
     protected TextureRegion die[][];
     protected TextureRegion attack[][];
@@ -31,6 +32,7 @@ public class SEnemy extends Sprite implements Element, State{
 
     public SEnemy(Skin skin) {
         super(skin);
+        statusBar = new StatusBar();
         delta = 0;
         self = new Enemy(hp, hp , 0, 0);
         direction = random();
@@ -81,7 +83,10 @@ public class SEnemy extends Sprite implements Element, State{
     @Override
     public void render(SpriteBatch batch)
     {
+        batch.begin();
         batch.draw(animation.getKeyFrame(delta), (float)self.getX(), (float)self.getY());
+        statusBar.show((float) self.x, (float) self.y+250, (float)self.getHealth(), 0, self.name, batch);
+        batch.end();
     }
 
     @Override

@@ -31,8 +31,8 @@ public class PlayerAnimation extends Sprite implements State {
     private STATE previousState;
     private STATE playerState;
     private DIR direction;
+    private StatusBar statusBar;
 
-    private float elapsed;
     private float delta;
     private final float distance = 3f;
     private final float gravity = -0.5f;
@@ -41,7 +41,6 @@ public class PlayerAnimation extends Sprite implements State {
     public static final float fps = 1f / 30f;
 
     private double hp = 100;
-    private String name;
     private boolean isATK;
     private boolean isGround;
     private boolean isDead;
@@ -54,8 +53,7 @@ public class PlayerAnimation extends Sprite implements State {
         me.setName("Ninja");
         me.setPos(1, 0);
         me.velocity(0, 0);
-//        position = new Vector2(1, 0);
-//        velocity = new Vector2(0, 0);
+        statusBar = new StatusBar();
         delta = 0;
         isATK = false;
         isDead = false;
@@ -194,7 +192,10 @@ public class PlayerAnimation extends Sprite implements State {
 
     @Override
     public void render(SpriteBatch batch) {
+        batch.begin();
         batch.draw(animation.getKeyFrame(delta), BigDecimal.valueOf(me.x).floatValue(), BigDecimal.valueOf(me.y).floatValue());
+        statusBar.show((float) me.x, (float) me.y-20, (float)me.getHealth(), 0, me.name, batch);
+        batch.end();
     }
 
     @Override
