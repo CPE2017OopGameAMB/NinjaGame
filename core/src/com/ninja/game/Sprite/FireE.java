@@ -24,28 +24,28 @@ public class FireE extends SEnemy {
         {
             for(int j=0; j<31; j++)
             {
-                idle[i][j] = resource.getRegion((i==0?"ffi":"fbi")+String.format("%02d", j+1));
+                idle[i][j] = resource.getRegion((i==0?"fbi":"ffi")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
             for(int j=0; j<41; j++)
             {
-                die[i][j] = resource.getRegion((i==0?"ffd":"fbd")+String.format("%02d", j+1));
+                die[i][j] = resource.getRegion((i==0?"fbd":"ffd")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
             for(int j=0; j<31; j++)
             {
-                attack[i][j] = resource.getRegion((i==0?"ffa":"fba")+String.format("%02d", j+1));
+                attack[i][j] = resource.getRegion((i==0?"fba":"ffa")+String.format("%02d", j+1));
             }
         }
         for(int i=0; i<2; i++)
         {
             for(int j=0; j<31; j++)
             {
-                walk[i][j] = resource.getRegion((i==0?"ffw":"fbw")+String.format("%02d", j+1));
+                walk[i][j] = resource.getRegion((i==0?"fbw":"ffw")+String.format("%02d", j+1));
             }
         }
         animation = new Animation(PlayerAnimation.fps, idle[0]);
