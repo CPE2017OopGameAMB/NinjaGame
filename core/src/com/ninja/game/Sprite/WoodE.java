@@ -62,4 +62,19 @@ public class WoodE extends SEnemy{
     public void update(float delta) {
         this.delta += delta;
     }
+
+    @Override
+    public void dispose()
+    {
+        for(int i = 0; i<2; i++)
+        {
+            for(int j= 0; i<30; j++)
+            {
+                idle[i][j].getTexture().dispose();
+                die[i][j].getTexture().dispose();
+                attack[i][j].getTexture().dispose();
+                walk[i][j].getTexture().dispose();
+            }
+        }
+    }
 }
