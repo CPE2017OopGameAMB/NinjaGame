@@ -76,7 +76,8 @@ public class AiBot extends Character{
 
     public void hit_target()
     {
-        //Imprement
+        me.attack(target, 10);
+        new Timer(50000);
         returnState = STATE.ATTACK;
 
     }

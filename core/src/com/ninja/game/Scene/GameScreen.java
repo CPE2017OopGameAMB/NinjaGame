@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ninja.game.Item.ItemList.Arm_omen;
 import com.ninja.game.Sprite.*;
 
 import java.util.ArrayList;
@@ -93,11 +94,6 @@ public class GameScreen extends ScreenAdapter {
                 monsta.get(i).render(batch);
             }
 
-
-
-
-
-
             player.update(delta);
             player.render(batch);
         }
@@ -120,6 +116,13 @@ public class GameScreen extends ScreenAdapter {
         resource.addRegions(assetManager.get("packed/animation.atlas", TextureAtlas.class));
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
+
+        player.getMe().addItem(new Arm_omen());
+        player.getMe().addItem(new Arm_omen());
+        player.getMe().addItem(new Arm_omen());
+        player.getMe().addItem(new Arm_omen());
+        player.getMe().addItem(new Arm_omen());
+
 
         monst = new WoodE(resource);
         monst.setTarget(player.getMe());
