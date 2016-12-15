@@ -1,12 +1,8 @@
 package com.ninja.game.Sprite;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.ninja.game.Sprite.Character;
-import com.ninja.game.Sprite.SEnemy;
 
 /**
  * Created by Aunpyz on 12/15/2016.
@@ -52,19 +48,8 @@ public class WaterE extends SEnemy {
                 walk[i][j] = resource.getRegion((i==0?"wfw":"wbw")+String.format("%02d", j+1));
             }
         }
-        animation = new Animation(fps, idle[0]);
+        animation = new Animation(PlayerAnimation.fps, idle[0]);
         animation.setPlayMode(Animation.PlayMode.LOOP);
-    }
-
-    @Override
-    public void render(SpriteBatch batch)
-    {
-        batch.draw(animation.getKeyFrame(delta),position.x,position.y);
-    }
-
-    @Override
-    public void update(float delta) {
-        this.delta += delta;
     }
 
     @Override
