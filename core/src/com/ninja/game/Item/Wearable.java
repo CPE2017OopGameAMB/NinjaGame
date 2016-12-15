@@ -47,6 +47,6 @@ public class Wearable extends Item implements IWearable{
     }
 
     public double getAtkCal(){
-        return atk;
+        return 1.2*atk+2;
     }
 }

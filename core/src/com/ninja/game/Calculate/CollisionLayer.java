@@ -2,7 +2,6 @@ package com.ninja.game.Calculate;
 
 import com.ninja.game.Sprite.Character;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +15,6 @@ public class CollisionLayer {
     public CollisionLayer(){
         player = new Character();
         other = new Character();
-        characterList = new ArrayList<Character>();
     }
 
     public CollisionLayer(Character player, Character other){
@@ -52,7 +50,8 @@ public class CollisionLayer {
         Distance distance;
         distance = new Distance(player.getX(), player.getY(), other.getX(), other.getY());
         double xs = distance.distanct();
-        return (xs < nearest);
+        //System.out.println(xs/1000);
+        return (xs/1000 <= nearest);
     }
 
     public boolean circleNearest(double radian){

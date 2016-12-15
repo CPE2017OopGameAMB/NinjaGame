@@ -2,16 +2,16 @@ package com.ninja.game.Sprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ninja.game.Interfaces.State;
-import com.sun.corba.se.impl.encoding.IDLJavaSerializationInputStream;
-import org.omg.CORBA.portable.IDLEntity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Aunpyz on 12/14/2016.
@@ -46,17 +46,22 @@ public class PlayerAnimation extends Sprite implements State {
     private boolean isDead;
 
     private Character me = new Character();
+    private List<SEnemy> enemyList;
+
+    Sound sound;
 
     public PlayerAnimation(Skin skin) {
         super(skin);
         me.create_character(hp, hp, 3, 2);
         me.setName("Ninja");
+        //me.create_status(10, 0, 4.6);
         me.setPos(1, 0);
         me.velocity(0, 0);
         statusBar = new StatusBar();
         delta = 0;
         isATK = false;
         isDead = false;
+        sound = Gdx.audio.newSound(Gdx.files.internal("audio/sword.ogg"));
     }
 
     @Override
@@ -153,9 +158,9 @@ public class PlayerAnimation extends Sprite implements State {
         this.delta += delta;
         if (me.getHealth() > 0 || playerState != STATE.DIE) {
             me.x += me.velocityX;
-            if (me.velocityX < -100)
+            if (me.x <= -100)
                 me.x = -100;
-            else if (me.x > 850)
+            else if (me.x >= 850)
                 me.x = 850;
             me.y += me.velocityY;
             if (me.y <= groundLV) {
@@ -194,7 +199,7 @@ public class PlayerAnimation extends Sprite implements State {
     public void render(SpriteBatch batch) {
         batch.begin();
         batch.draw(animation.getKeyFrame(delta), BigDecimal.valueOf(me.x).floatValue(), BigDecimal.valueOf(me.y).floatValue());
-        statusBar.show((float) me.x, (float) me.y-20, (float)me.getHealth(), 0, me.name, batch);
+        statusBar.show((float) me.x, (float) me.y-20, (float)me.getHealth(), (float) me.getMana(), me.getName(), batch);
         batch.end();
     }
 
@@ -254,8 +259,11 @@ public class PlayerAnimation extends Sprite implements State {
             isDead = true;
             return STATE.DIE;
         }
-        if (isATK)
+        if (isATK){
+            me.scaningEnemy(enemyList);
             return STATE.ATTACK;
+        }
+
         if (me.velocityX != 0 && me.y <= groundLV)
             return STATE.CYCLE;
 //        else if((previousState == STATE.WALK && position.y <= 1) || previousState == STATE.CYCLE && velocity.x != 0)
@@ -271,12 +279,13 @@ public class PlayerAnimation extends Sprite implements State {
         else return STATE.IDLE;
     }
 
-    @Override
+    //@Override
     public void setState() {
 //        delta = 0;
         previousState = playerState;
         playerState = getState();
-        System.out.println(playerState);
+        //Log playStage Output
+        //System.out.println(playerState);
         switch (playerState) {
             case IDLE:
                 animation = new Animation(fps, getDir() == DIR.R ? idle[0] : idle[1]);
@@ -290,6 +299,7 @@ public class PlayerAnimation extends Sprite implements State {
             case ATTACK:
 //                delta = 0;
                 animation = new Animation(fps / 1.5f, getDir() == DIR.R ? attack[0] : attack[1]);
+                sound.play();
                 animation.setPlayMode(Animation.PlayMode.LOOP);
                 break;
             case JUMP:
@@ -353,5 +363,9 @@ public class PlayerAnimation extends Sprite implements State {
     public void setState(STATE newState){
         this.previousState = this.playerState;
         this.playerState = newState;
+    }
+
+    public void setArrEnemy(List<SEnemy> ene){
+        this.enemyList = ene;
     }
 }

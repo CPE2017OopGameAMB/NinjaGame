@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ninja.game.Calculate.Timer;
+import com.ninja.game.Config.Config;
 import com.ninja.game.Interfaces.State;
 import com.ninja.game.Sprite.*;
 
@@ -45,8 +47,14 @@ public class GameScreen extends ScreenAdapter {
     private final float WORLD_WIDTH = 12.8f;
     private final float WORLD_HEIGHT = 7.5f;
 
+    private Timer time = new Timer(50);
+    private Timer time2 = new Timer(10);
+
     private boolean isLoaded;
     List<SEnemy> monsta = new ArrayList<SEnemy>();
+
+
+
 
     public GameScreen()
     {
@@ -56,6 +64,8 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show () {
+
+
         isOver = false;
         countDown = 0f;
         batch = new SpriteBatch();
@@ -76,8 +86,11 @@ public class GameScreen extends ScreenAdapter {
         splash_time = TimeUtils.millis() + 1000 * 3;
     }
 
+    int kkkFirst = 0;
+
     @Override
     public void render (float delta) {
+
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -94,8 +107,24 @@ public class GameScreen extends ScreenAdapter {
                 monsta.get(i).render(batch);
             }
 
+            //Respown monster
+            if(time.hasCompleted()){
+                //System.out.println(kkkFirst);
+                kkkFirst++;
+
+                if (kkkFirst > 2000/player.getMe().getLevel()){
+                    //System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+                    int ff = 1 + (int)(Math.random() * ((3 - 1) + 1));
+                    monsta.add(classReturn(ff));
+                    monsta.get(monsta.size()-1).setTarget(player.getMe());
+                    kkkFirst=0;
+
+                }
+            }
+
             player.update(delta);
             player.render(batch);
+            player.setArrEnemy(monsta);
         }
         else if(gamestate == GAMESTATE.MENU)
         {
@@ -127,14 +156,16 @@ public class GameScreen extends ScreenAdapter {
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
 
-        int maxGen = 5;
+        int maxGen = Config.MONSTER_VALUE_INIT;
 
-        for (int i=0; i<=maxGen; i++){
+        for (int i=0; i<maxGen; i++){
             int ff = 1 + (int)(Math.random() * ((3 - 1) + 1));
             System.out.println(ff);
             monsta.add(classReturn(ff));
             monsta.get(i).setTarget(player.getMe());
         }
+
+        time.start();
 
     }
 
@@ -164,7 +195,13 @@ public class GameScreen extends ScreenAdapter {
                     isOver = true;
                 }
             }
+        }else {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+                isOver = false;
+                gamestate = GAMESTATE.PLAY;
+            }
         }
+
     }
 
     private SEnemy classReturn(int num){

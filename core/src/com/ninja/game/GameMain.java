@@ -1,18 +1,22 @@
 package com.ninja.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.audio.Music;
 import com.ninja.game.Scene.GameScreen;
-import com.uwsoft.editor.renderer.SceneLoader;
 
 public class GameMain extends Game {
 
+	Music music;
+
+
+
 	@Override
 	public void create () {
+		music = Gdx.audio.newMusic(Gdx.files.internal("audio/barge.ogg"));
+		music.play();
+
+
 		setScreen(new GameScreen());
 	}
 }

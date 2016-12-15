@@ -20,8 +20,9 @@ public class SEnemy extends Sprite implements Element, State{
     protected Character self;
     protected Character target;
     protected AiBot ai;
-    protected STATE state;
+    public STATE state;
     protected STATE prevState;
+    protected STATE playerState;
     protected StatusBar statusBar;
     protected TextureRegion idle[][];
     protected TextureRegion die[][];
@@ -78,6 +79,7 @@ public class SEnemy extends Sprite implements Element, State{
         self.setPos(ai.getChar().getX(), ai.getChar().getY());
         position.x = (float)self.getX();
         position.y = (float)self.getY();
+
     }
 
     @Override
@@ -85,7 +87,8 @@ public class SEnemy extends Sprite implements Element, State{
     {
         batch.begin();
         batch.draw(animation.getKeyFrame(delta), (float)self.getX(), (float)self.getY());
-        statusBar.show((float) self.x, (float) self.y+250, (float)self.getHealth(), 0, self.name, batch);
+        statusBar.show((float) self.x, (float) self.y+250, (float)self.getHealth(), (float) self.getMana(), self.getName(), batch);
+        //System.out.println(self.getMana());
         batch.end();
     }
 

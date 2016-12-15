@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Timer
 {
 
-    private long start;
-    private long secsToWait;
+    public long start;
+    public long secsToWait;
 
     public Timer(long secsToWait)
     {
@@ -18,13 +18,13 @@ public class Timer
 
     public void start()
     {
-        start = TimeUtils.millis() / 1000;
+        start = TimeUtils.millis() / 100;
     }
 
 
     public boolean hasCompleted()
     {
-        return TimeUtils.millis() / 1000 - start >= secsToWait;
+        return TimeUtils.millis() / 100 - start >= secsToWait;
     }
 
     public boolean Cooldown(){

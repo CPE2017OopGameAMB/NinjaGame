@@ -1,6 +1,8 @@
 package com.ninja.game.Sprite;
 
 import com.ninja.game.Calculate.CollisionLayer;
+import com.ninja.game.Calculate.Timer;
+import com.ninja.game.Config.Config;
 import com.ninja.game.Interfaces.State;
 import com.ninja.game.Item.Wearable;
 import com.ninja.game.State.EElements;
@@ -17,6 +19,18 @@ public class Character implements ICharater, State {
 
     //interface prop
     String name;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    int level=1;
+    int exp =0;
+
 
     // Class Prop
     protected EType type = EType.HERO;
@@ -47,10 +61,12 @@ public class Character implements ICharater, State {
     protected double atk = 0;
     protected double def = 0;
     protected double intel = 0;
+    int k=0;
 
     //Position
     protected double x = 0;
     protected double y = 0;
+    protected DIR dr = DIR.L;
 
     //Velocity
     protected double velocityX = 0;
@@ -105,6 +121,18 @@ public class Character implements ICharater, State {
         wearableList.add(item);
     }
 
+    public void giveExp(int exp){
+        this.exp += exp;
+        if(this.exp > level*30){
+            this.level++;
+            this.atk += this.atk*2;
+            this.def += this.def*1.2;
+            this.setMaxHealth(this.maxHealth*1.3);
+            this.exp = this.exp - (level*30);
+            healthUpdate();
+        }
+    }
+
     private void itemCalculateDef(){
         sumItemDef = 0;
         for (Wearable itemDef : wearableList){
@@ -112,9 +140,9 @@ public class Character implements ICharater, State {
         }
     }
     private void itemCalculateAtk(){
-        sumItemDef = 0;
+        sumItemAtk = 0;
         for (Wearable itemAtk : wearableList){
-            sumItemDef += itemAtk.getDefCal();
+            sumItemAtk += itemAtk.getAtkCal();
         }
     }
 
@@ -126,11 +154,22 @@ public class Character implements ICharater, State {
         return this.sumItemDef+this.def;
     }
 
+    public double getResultAtk(){
+        // Calculate Every Called
+        this.itemCalculateAtk();
+        this.itemCalculateDef();
+        //System.out.println("Item.Def: "+this.sumItemDef+ " +Char.Def "+this.def+ " = "+(double)(this.sumItemDef+this.def));
+        return this.sumItemAtk+this.atk;
+    }
+
     private void Health2Percent(){
         this.maxHealth = (this.maxHealth > 0) ? this.maxHealth:1;
         this.percenHP = (this.health / this.maxHealth) *100;
         if(this.percenHP < 0){
             this.percenHP = 0;
+        }
+        if(this.percenHP > 100){
+            this.percenHP = 100;
         }
     }
 
@@ -153,16 +192,51 @@ public class Character implements ICharater, State {
         this.Health2Percent();
     }
 
-    private void scaningEnemy(ArrayList<SEnemy> enemyL){
+    Timer time = new Timer(Config.COOLDOWN_HERO);
+    boolean isFirst = true;
+
+
+    public void scaningEnemy(List<SEnemy> enemyL){
+
         CollisionLayer col = new CollisionLayer();
         col.setPlayer(this.getX(), this.getY());
+        ArrayList<Integer> em = new ArrayList<Integer>();
         for (SEnemy s : enemyL){
             col.setOther(s.self.getX(), s.self.getY());
-            if (col.circleNearest(20)){
+            if(s.self.getPercenHP()<=0){
+                System.out.println("Delete Enemy"+enemyL.indexOf(s));
+                //System.out.println(s.self.def);
+                //s.state = STATE.DIE;
+                //s.update(0);
+                em.add(enemyL.indexOf(s));
+                this.setPercenHP(this.percenHP+20);
+                this.giveExp(50+(2*level));
+                this.healthUpdate();
+                System.out.println("Level: ["+this.level+"] ExP : ["+this.exp+"]");
+                s.self.setY(9999);
+            }
+            if (col.findNearest(100)){
                 //when enemry nearest player make damage to enermy
-                this.attack(s.self, atk);
+                if (isFirst ||time.hasCompleted()){
+                    this.attack(s.self, atk);
+                    //System.out.println("gg");
+                    isFirst = false;
+                    time.start();
+                    k=0;
+                }else if(!time.hasCompleted()){
+                    k++;
+
+                }
+
             }
         }
+        //System.out.println("SIZEEEEEEEEE : "+enemyL.size());
+        for (Integer d : em){
+            enemyL.remove(d.intValue());
+        }
+        em.clear();
+        //System.out.println("55555555555555555555555 : "+enemyL.size());
+
     }
 
 
@@ -171,7 +245,8 @@ public class Character implements ICharater, State {
         healthUpdate();
         ElementSystem dmgMultiply = new ElementSystem(this.getElement(), character.getElement());
         double multi = dmgMultiply.getDamge();
-        System.out.println(character.getPercenHP() + " perc2dmg: "+def2PercentDamage(dmg,multi ));
+
+        //System.out.println("["+this.getClass().toString()+"] "+character.getHealth() + " perc2dmg: "+def2PercentDamage(dmg,multi ));
         character.attacked(dmg, multi);
     }
 
@@ -179,6 +254,7 @@ public class Character implements ICharater, State {
         healthUpdate();
         //System.out.println(getPercenHP() + " perc2dmg: "+def2PercentDamage(dmg, multi));
         setPercenHP((getPercenHP() - def2PercentDamage(dmg, multi)));
+        System.out.println("["+this.getName()+"] was attacked with ["+dmg+"]+["+multi+"]");
         healthUpdate();
     }
 
@@ -322,7 +398,6 @@ public class Character implements ICharater, State {
 
     @Override
     public void setState() {
-
     }
 
     public void setDir(State.DIR dir)
