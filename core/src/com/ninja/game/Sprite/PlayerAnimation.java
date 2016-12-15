@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ninja.game.Interfaces.State;
+import com.sun.corba.se.impl.encoding.IDLJavaSerializationInputStream;
+import org.omg.CORBA.portable.IDLEntity;
 
 import java.math.BigDecimal;
 
@@ -42,6 +44,7 @@ public class PlayerAnimation extends Sprite implements State {
     private String name;
     private boolean isATK;
     private boolean isGround;
+    private boolean isDead;
 
     private Character me = new Character();
 
@@ -55,6 +58,7 @@ public class PlayerAnimation extends Sprite implements State {
 //        velocity = new Vector2(0, 0);
         delta = 0;
         isATK = false;
+        isDead = false;
     }
 
     @Override
@@ -149,7 +153,7 @@ public class PlayerAnimation extends Sprite implements State {
     @Override
     public void update(float delta) {
         this.delta += delta;
-        if (me.getHealth() > 0) {
+        if (me.getHealth() > 0 || playerState != STATE.DIE) {
             me.x += me.velocityX;
             if (me.velocityX < -100)
                 me.x = -100;
@@ -190,7 +194,6 @@ public class PlayerAnimation extends Sprite implements State {
 
     @Override
     public void render(SpriteBatch batch) {
-//        System.out.println(this.delta);
         batch.draw(animation.getKeyFrame(delta), BigDecimal.valueOf(me.x).floatValue(), BigDecimal.valueOf(me.y).floatValue());
     }
 
@@ -245,8 +248,11 @@ public class PlayerAnimation extends Sprite implements State {
 
     @Override
     public STATE getState() {
-        if (me.getHealth() <= 0)
+        if (me.getHealth() <= 0 && me.y <= groundLV)
+        {
+            isDead = true;
             return STATE.DIE;
+        }
         if (isATK)
             return STATE.ATTACK;
         if (me.velocityX != 0 && me.y <= groundLV)
@@ -269,6 +275,7 @@ public class PlayerAnimation extends Sprite implements State {
 //        delta = 0;
         previousState = playerState;
         playerState = getState();
+        System.out.println(playerState);
         switch (playerState) {
             case IDLE:
                 animation = new Animation(fps, getDir() == DIR.R ? idle[0] : idle[1]);

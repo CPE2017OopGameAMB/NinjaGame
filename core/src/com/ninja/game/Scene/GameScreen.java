@@ -84,7 +84,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        update(delta);
         //wait until asset is loaded
         if (assetManager.update() && TimeUtils.millis() > splash_time && gamestate == GAMESTATE.PLAY) {
             if (!isLoaded)
@@ -99,12 +98,6 @@ public class GameScreen extends ScreenAdapter {
                 monsta.get(i).update(delta);
                 monsta.get(i).render(batch);
             }
-
-
-
-
-
-
             player.update(delta);
             player.render(batch);
         }
@@ -118,6 +111,7 @@ public class GameScreen extends ScreenAdapter {
         }
         else
             batch.draw(gameover, 0, 0, 1024, 600);
+        update(delta);
         batch.end();
     }
 
