@@ -14,9 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ninja.game.Sprite.PlayerAnimation;
-import com.ninja.game.Sprite.SEnemy;
-import com.ninja.game.Sprite.WoodE;
+import com.ninja.game.Sprite.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Aunpyz on 12/14/2016.
@@ -43,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
     private boolean isLoaded;
 
     SEnemy monst;
+    List<SEnemy> monsta = new ArrayList<SEnemy>();
 
     public GameScreen()
     {
@@ -85,6 +87,17 @@ public class GameScreen extends ScreenAdapter {
             scene.render(batch);
             monst.update(delta);
             monst.render(batch);
+
+            for (int i=0; i<monsta.size(); i++){
+                monsta.get(i).update(delta);
+                monsta.get(i).render(batch);
+            }
+
+
+
+
+
+
             player.update(delta);
             player.render(batch);
         }
@@ -107,8 +120,20 @@ public class GameScreen extends ScreenAdapter {
         resource.addRegions(assetManager.get("packed/animation.atlas", TextureAtlas.class));
         scene = new Scene(resource);
         player = new PlayerAnimation(resource);
+
         monst = new WoodE(resource);
         monst.setTarget(player.getMe());
+
+        int minGen = 0;
+        int maxGen = 5;
+
+        int ff = minGen + (int)(Math.random() * ((maxGen - minGen) + 1));
+
+        for (int i=0; i<=maxGen; i++){
+            monsta.add(classReturn(ff));
+            monsta.get(i).setTarget(player.getMe());
+        }
+
     }
 
     @Override
@@ -127,5 +152,14 @@ public class GameScreen extends ScreenAdapter {
     {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             gamestate = GAMESTATE.PLAY;
+    }
+
+    private SEnemy classReturn(int num){
+        switch (num){
+            case 0: return new FireE(resource);
+            case 1: return new WaterE(resource);
+            case 2: return new WoodE(resource);
+            default:return new FireE(resource);
+        }
     }
 }

@@ -76,7 +76,9 @@ public class AiBot extends Character{
 
     public void hit_target()
     {
+        //Imprement
         returnState = STATE.ATTACK;
+
     }
 
     public void walk_to_target()
