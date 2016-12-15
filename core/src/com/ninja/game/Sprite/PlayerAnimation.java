@@ -38,7 +38,7 @@ public class PlayerAnimation extends Sprite implements State {
     private final float scale = 0.5f;
     public static final float groundLV = 40;
 
-    private double hp;
+    private double hp = 100;
     private String name;
     private boolean isATK;
     private boolean isGround;
@@ -47,7 +47,6 @@ public class PlayerAnimation extends Sprite implements State {
 
     public PlayerAnimation(Skin skin) {
         super(skin);
-        hp = 100;
         me.create_character(hp, hp, 3, 2);
         me.setName("Ninja");
         me.setPos(1, 0);
@@ -368,5 +367,14 @@ public class PlayerAnimation extends Sprite implements State {
 
     public Character getMe() {
         return this.me;
+    }
+
+    public void setDirection(DIR dir){
+        this.direction = dir;
+    }
+
+    public void setState(STATE newState){
+        this.previousState = this.playerState;
+        this.playerState = newState;
     }
 }
