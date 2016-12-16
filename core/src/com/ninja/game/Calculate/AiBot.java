@@ -1,5 +1,7 @@
 package com.ninja.game.Calculate;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.ninja.game.Config.Config;
 import com.ninja.game.Interfaces.State;
@@ -24,6 +26,7 @@ public class AiBot extends Character {
 
     Timer time = new Timer(Config.COOLDOWN_MONSTER);
     boolean isFirst = true;
+    Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio/breakblock_01.ogg"));
 
     public AiBot(Character me) {
         this.me = me;
@@ -62,6 +65,7 @@ public class AiBot extends Character {
     }
 
     public void hit_target() {
+        sound.play(2.0f);
         if (target.getHealth() <= 0) {
             return;
         } else if (target.getY() > 100) {

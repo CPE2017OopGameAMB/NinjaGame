@@ -128,6 +128,7 @@ public class Character implements ICharater, State {
             this.atk += this.atk*2;
             this.def += this.def*1.2;
             this.setMaxHealth(this.maxHealth*1.3);
+            this.setHealth(this.getHealth()+50);
             this.exp = this.exp - (level*30);
             healthUpdate();
         }
@@ -201,6 +202,7 @@ public class Character implements ICharater, State {
         CollisionLayer col = new CollisionLayer();
         col.setPlayer(this.getX(), this.getY());
         ArrayList<Integer> em = new ArrayList<Integer>();
+        System.out.println("HP:["+health+"]Max["+maxHealth+"]ATK["+atk+"]");
         for (SEnemy s : enemyL){
             col.setOther(s.self.getX(), s.self.getY());
             if(s.self.getPercenHP()<=0){
@@ -215,7 +217,7 @@ public class Character implements ICharater, State {
                 System.out.println("Level: ["+this.level+"] ExP : ["+this.exp+"]");
                 s.self.setY(9999);
             }
-            if (col.findNearest(100)){
+            if (this.dir != s.self.dir && col.findNearest(130)){
                 //when enemry nearest player make damage to enermy
                 if (isFirst ||time.hasCompleted()){
                     this.attack(s.self, atk);

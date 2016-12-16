@@ -31,6 +31,8 @@ public class SEnemy extends Sprite implements Element, State{
     protected float hp = 100;
     protected float delta;
 
+
+
     public SEnemy(Skin skin) {
         super(skin);
         statusBar = new StatusBar();

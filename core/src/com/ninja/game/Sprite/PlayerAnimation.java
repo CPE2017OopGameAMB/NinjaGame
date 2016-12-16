@@ -176,12 +176,12 @@ public class PlayerAnimation extends Sprite implements State {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 me.velocityX = -distance;
-                direction = DIR.L;
+                me.setDir(DIR.L);
                 isATK = false;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 me.velocityX = distance;
-                direction = DIR.R;
+                me.setDir(DIR.R);
                 isATK = false;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
@@ -288,52 +288,52 @@ public class PlayerAnimation extends Sprite implements State {
         //System.out.println(playerState);
         switch (playerState) {
             case IDLE:
-                animation = new Animation(fps, getDir() == DIR.R ? idle[0] : idle[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? idle[0] : idle[1]);
                 animation.setPlayMode(Animation.PlayMode.LOOP);
                 break;
             case DIE:
                 this.delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? die[0] : die[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? die[0] : die[1]);
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
                 break;
             case ATTACK:
 //                delta = 0;
-                animation = new Animation(fps / 1.5f, getDir() == DIR.R ? attack[0] : attack[1]);
+                animation = new Animation(fps / 1.5f, me.getDir() == DIR.R ? attack[0] : attack[1]);
                 sound.play();
                 animation.setPlayMode(Animation.PlayMode.LOOP);
                 break;
             case JUMP:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? jump[0] : jump[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? jump[0] : jump[1]);
                 //to 2nd jump or fall air
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
                 break;
             case FALLAIR:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? fallAir[0] : fallAir[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? fallAir[0] : fallAir[1]);
                 //to 2dn jump or fall ground
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
                 break;
             case FALLGROUND:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? fallGround[0] : fallGround[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? fallGround[0] : fallGround[1]);
                 //to idle
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
                 break;
             case WALK:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? walk[0] : walk[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? walk[0] : walk[1]);
                 //to stop a or cycle a
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
                 break;
             case CYCLE:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? loop[0] : loop[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? loop[0] : loop[1]);
                 animation.setPlayMode(Animation.PlayMode.LOOP);
                 break;
             case STOP:
 //                delta = 0;
-                animation = new Animation(fps, getDir() == DIR.R ? stop[0] : stop[1]);
+                animation = new Animation(fps, me.getDir() == DIR.R ? stop[0] : stop[1]);
                 animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
     }

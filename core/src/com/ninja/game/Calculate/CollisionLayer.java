@@ -50,7 +50,7 @@ public class CollisionLayer {
         Distance distance;
         distance = new Distance(player.getX(), player.getY(), other.getX(), other.getY());
         double xs = distance.distanct();
-        //System.out.println(xs/1000);
+        //System.out.println(xs/1000 + "[ "+(xs/1000 <= nearest)+"]");
         return (xs/1000 <= nearest);
     }
 
