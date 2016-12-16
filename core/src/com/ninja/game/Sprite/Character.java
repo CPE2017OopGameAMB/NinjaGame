@@ -125,10 +125,10 @@ public class Character implements ICharater, State {
         this.exp += exp;
         if(this.exp > level*30){
             this.level++;
-            this.atk += this.atk*2;
-            this.def += this.def*1.2;
-            this.setMaxHealth(this.maxHealth*1.3);
-            this.setHealth(this.getHealth()+50);
+            this.atk += this.atk*1.11111;
+            //this.def += this.def*1.2;
+            //this.setMaxHealth(this.maxHealth*1.3);
+            //this.setHealth(this.getHealth()+50);
             this.exp = this.exp - (level*30);
             healthUpdate();
         }
@@ -217,7 +217,7 @@ public class Character implements ICharater, State {
                 System.out.println("Level: ["+this.level+"] ExP : ["+this.exp+"]");
                 s.self.setY(9999);
             }
-            if (this.dir != s.self.dir && col.findNearest(130)){
+            if (this.dir != s.self.dir && col.findNearest(90)){
                 //when enemry nearest player make damage to enermy
                 if (isFirst ||time.hasCompleted()){
                     this.attack(s.self, atk);
