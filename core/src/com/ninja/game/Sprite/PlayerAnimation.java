@@ -61,7 +61,7 @@ public class PlayerAnimation extends Sprite implements State {
         delta = 0;
         isATK = false;
         isDead = false;
-        sound = Gdx.audio.newSound(Gdx.files.internal("audio/sword.ogg"));
+//        sound = Gdx.audio.newSound(Gdx.files.internal("audio/sword.ogg"));
     }
 
     @Override
@@ -299,7 +299,7 @@ public class PlayerAnimation extends Sprite implements State {
             case ATTACK:
 //                delta = 0;
                 animation = new Animation(fps / 1.5f, me.getDir() == DIR.R ? attack[0] : attack[1]);
-                sound.play();
+//                sound.play();
                 animation.setPlayMode(Animation.PlayMode.LOOP);
                 break;
             case JUMP:

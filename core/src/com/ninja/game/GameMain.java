@@ -13,8 +13,8 @@ public class GameMain extends Game {
 
 	@Override
 	public void create () {
-		music = Gdx.audio.newMusic(Gdx.files.internal("audio/barge.ogg"));
-		music.play();
+//		music = Gdx.audio.newMusic(Gdx.files.internal("audio/barge.ogg"));
+//		music.play();
 
 
 		setScreen(new GameScreen());

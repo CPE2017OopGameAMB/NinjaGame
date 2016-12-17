@@ -26,7 +26,7 @@ public class AiBot extends Character {
 
     Timer time = new Timer(Config.COOLDOWN_MONSTER);
     boolean isFirst = true;
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio/breakblock_01.ogg"));
+//    Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio/breakblock_01.ogg"));
 
     public AiBot(Character me) {
         this.me = me;
@@ -65,7 +65,7 @@ public class AiBot extends Character {
     }
 
     public void hit_target() {
-        sound.play(2.0f);
+//        sound.play(2.0f);
         if (target.getHealth() <= 0) {
             return;
         } else if (target.getY() > 100) {
